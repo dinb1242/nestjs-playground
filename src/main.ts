@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ResponseInterceptor } from './core/interceptor/response.interceptor';
+import { HttpExceptionFilter } from './core/filter/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,6 +31,12 @@ async function bootstrap() {
    *                                                                                quoted from NestJS Docs
    */
   app.enableShutdownHooks();
+
+  /* Add global response interceptor */
+  app.useGlobalInterceptors(new ResponseInterceptor());
+
+  /* Add global exception filter */
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(process.env.PORT ?? 3000);
 }
