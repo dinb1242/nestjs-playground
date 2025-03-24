@@ -14,7 +14,6 @@ async function bootstrap() {
     .setTitle('Playground')
     .setDescription('NestJS Playground')
     .setVersion('1.0')
-    .addTag('playground')
     .setContact('정지현', 'https://velog.io/@dinb1242', 'dinb1242@naver.com')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);

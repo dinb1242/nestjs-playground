@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HealthModule } from './core/health/health.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './core/validator/env.validator';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
-import { DataSource } from 'typeorm';
 import { ExampleModule } from './domain/v1/example/example.module';
 
 @Module({
@@ -31,7 +28,7 @@ import { ExampleModule } from './domain/v1/example/example.module';
     }),
     ExampleModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -1,11 +1,13 @@
-import { BadRequestException, Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import {
   HealthCheck,
   HealthCheckService,
   HttpHealthIndicator,
   MemoryHealthIndicator,
 } from '@nestjs/terminus';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Health - 서버 상태 체크')
 @Controller('health')
 export class HealthController {
   constructor(
@@ -14,6 +16,9 @@ export class HealthController {
     private readonly memory: MemoryHealthIndicator,
   ) {}
 
+  @ApiOperation({
+    summary: '서버 상태 체크',
+  })
   @Get()
   @HealthCheck()
   async check() {
