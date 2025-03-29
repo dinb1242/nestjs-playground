@@ -11,13 +11,15 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '../../../shared/guard/auth.guard';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { CustomRequest } from '../../../shared/interface/custom-request.interface';
+import { AuthPublic } from '../../../shared/decorator/auth.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @AuthPublic()
   @HttpCode(HttpStatus.OK)
   @Post('sign-in')
   async signIn(

@@ -8,12 +8,26 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { CustomRequest } from '../interface/custom-request.interface';
 import { CustomJwtPayload } from '../interface/jwt-payload.interface';
+import { Reflector } from '@nestjs/core';
+import { IS_PUBLIC_KEY } from '../decorator/auth.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublic) {
+      // 💡 See this condition
+      return true;
+    }
+
     const request: CustomRequest = context.switchToHttp().getRequest();
 
     /* 스웨거 쿠키를 체크한다. (스웨거에 부착된 쿠키) */
