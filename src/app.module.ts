@@ -7,6 +7,9 @@ import * as process from 'node:process';
 import { ExampleModule } from './domain/v1/example/example.module';
 import { AuthModule } from './domain/v1/auth/auth.module';
 import { UserModule } from './domain/v1/user/user.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './shared/guard/auth.guard';
+import { RolesGuard } from './shared/guard/role.guard';
 
 @Module({
   imports: [
@@ -33,6 +36,15 @@ import { UserModule } from './domain/v1/user/user.module';
     UserModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

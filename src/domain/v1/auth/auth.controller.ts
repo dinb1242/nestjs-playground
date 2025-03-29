@@ -13,7 +13,11 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from '../../../shared/guard/auth.guard';
 import { Response } from 'express';
 import { CustomRequest } from '../../../shared/interface/custom-request.interface';
-import { AuthPublic } from '../../../shared/decorator/auth.decorator';
+import {
+  AuthPublic,
+  AuthRoles,
+} from '../../../shared/decorator/auth.decorator';
+import { Role } from '../../../shared/enum/role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -38,7 +42,7 @@ export class AuthController {
     return aT;
   }
 
-  @UseGuards(AuthGuard)
+  @AuthRoles(Role.ADMIN)
   @Get('profile')
   getProfile(@Req() req: CustomRequest) {
     return req.user;

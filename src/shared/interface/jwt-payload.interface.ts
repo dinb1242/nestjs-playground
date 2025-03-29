@@ -1,6 +1,9 @@
+import { Role } from '../enum/role.enum';
+
 export interface CustomJwtPayload {
   sub: number;
   username: string;
-  iat: number;
-  exp: number;
+  role: Role;
+  iat?: number;
+  exp?: number;
 }

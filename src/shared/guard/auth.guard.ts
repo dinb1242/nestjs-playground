@@ -10,6 +10,7 @@ import { CustomRequest } from '../interface/custom-request.interface';
 import { CustomJwtPayload } from '../interface/jwt-payload.interface';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorator/auth.decorator';
+import { Role } from '../enum/role.enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

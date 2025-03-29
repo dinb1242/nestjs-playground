@@ -23,12 +23,6 @@ import { AuthGuard } from '../../../shared/guard/auth.guard';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [AuthService],
 })
 export class AuthModule {}
