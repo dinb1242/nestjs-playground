@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ResponseInterceptor } from './core/interceptor/response.interceptor';
-import { HttpExceptionFilter } from './core/filter/http-exception.filter';
+import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
 import { LoggingInterceptor } from './core/interceptor/logging.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 
@@ -40,7 +40,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   /* Add global exception filter */
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   /* Apply class validator */
   app.useGlobalPipes(
