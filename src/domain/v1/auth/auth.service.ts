@@ -3,6 +3,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CustomJwtPayload } from '../../../shared/interface/jwt-payload.interface';
 import { Role } from '../../../shared/enum/role.enum';
+import { SignInAuthDto } from './dto/sign-in-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,9 +12,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findOne(username);
-    if (user?.password !== pass) {
+  async signIn(body: SignInAuthDto): Promise<any> {
+    const user = await this.userService.findOne(body.username);
+    if (user?.password !== body.password) {
       throw new UnauthorizedException();
     }
     const { password, ...result } = user;

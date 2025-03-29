@@ -37,6 +37,18 @@ class EnvironmentVariables {
 
   @IsBooleanString()
   DATABASE_SYNCHRONIZE: boolean | undefined;
+
+  @IsString()
+  JWT_SECRET: string | undefined;
+
+  @IsString()
+  COOKIE_SECRET: string | undefined;
+
+  @IsString()
+  CIPHER_IV: string | undefined;
+
+  @IsString()
+  CIPHER_SECRET: string | undefined;
 }
 
 export function validate(config: Record<string, unknown>) {
