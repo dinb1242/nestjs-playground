@@ -10,6 +10,7 @@ import { UserModule } from './domain/v1/user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { RolesGuard } from './shared/guard/role.guard';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -31,6 +32,14 @@ import { RolesGuard } from './shared/guard/role.guard';
       logging: true,
       synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 10000,
+          limit: 50,
+        },
+      ],
+    }),
     ExampleModule,
     AuthModule,
     UserModule,
@@ -44,6 +53,10 @@ import { RolesGuard } from './shared/guard/role.guard';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })

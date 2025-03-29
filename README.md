@@ -7,7 +7,7 @@
 - 데이터 대칭/비대칭 암호화
 - 대칭키 to call APIs
 - [V] Validator (using global class-validator with transform property)
-- Helmet 및 기타 보안 (CORS, CSRF, Rate Limit 등)
+- [V] Helmet 및 기타 보안 (CORS, CSRF, Rate Limit 등)
 - [V] Logger (using interceptor)
 - [V] Dev & Prod env using .env or NestJS 기본 제공 모듈
 - [V] PostgresQL for ODBMS

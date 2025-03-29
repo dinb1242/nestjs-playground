@@ -6,6 +6,8 @@ import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
 import { LoggingInterceptor } from './core/interceptor/logging.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import { doubleCsrf } from 'csrf-csrf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
@@ -28,6 +30,9 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('apidoc', app, documentFactory);
+
+  /* Apply helmet */
+  app.use(helmet());
 
   /**
    * Enable shutdown hooks
