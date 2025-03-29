@@ -26,23 +26,22 @@ export class LoggingInterceptor implements NestInterceptor {
         const delay = Date.now() - now;
         console.log(`${method} ${url} ${statusCode} ${delay}ms`);
       }),
-      catchError((error: HttpException | TypeError) => {
-        /* InternalSer */
-        if (error instanceof TypeError) {
+      catchError((error: HttpException | Error) => {
+        if (error instanceof HttpException) {
+          const delay = Date.now() - now;
+          const statusCode = error.getStatus ? error.getStatus() : 500;
+          const errorMessage: string = error.message || 'Internal server error';
+          const errorResponse: string | Response = error.getResponse()
+            ? JSON.stringify(error.getResponse())
+            : '';
+
+          console.log(
+            `${method} ${url} ${statusCode} ${delay}ms - Error: ${errorMessage} - Details: ${errorResponse}`,
+          );
+          return throwError(() => error);
+        } else {
           return throwError(() => error);
         }
-
-        const delay = Date.now() - now;
-        const statusCode = error.getStatus ? error.getStatus() : 500;
-        const errorMessage: string = error.message || 'Internal server error';
-        const errorResponse: string | Response = error.getResponse()
-          ? JSON.stringify(error.getResponse())
-          : '';
-
-        console.log(
-          `${method} ${url} ${statusCode} ${delay}ms - Error: ${errorMessage} - Details: ${errorResponse}`,
-        );
-        return throwError(() => error);
       }),
     );
   }

@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-@Catch(HttpException, TypeError)
+@Catch(HttpException, Error)
 export class GlobalExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException | TypeError, host: ArgumentsHost): any {
+  catch(exception: HttpException | Error, host: ArgumentsHost): any {
     const http = host.switchToHttp();
     const response = http.getResponse<Response>();
 
@@ -21,7 +21,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         message: exception.message,
         data: null,
       });
-    } else if (exception instanceof TypeError) {
+    } else {
+      /* HTTP 이외 예외 처리 */
       const status = HttpStatus.INTERNAL_SERVER_ERROR;
 
       response.status(status).json({

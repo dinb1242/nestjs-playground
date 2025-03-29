@@ -5,6 +5,7 @@ import { ResponseInterceptor } from './core/interceptor/response.interceptor';
 import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
 import { LoggingInterceptor } from './core/interceptor/logging.interceptor';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
@@ -15,6 +16,15 @@ async function bootstrap() {
     .setDescription('NestJS Playground')
     .setVersion('1.0')
     .setContact('정지현', 'https://velog.io/@dinb1242', 'dinb1242@naver.com')
+    // .addBearerAuth(
+    //   {
+    //     type: 'http',
+    //     scheme: 'bearer',
+    //     name: 'JWT',
+    //     in: 'header',
+    //   },
+    //   'access-token',
+    // )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('apidoc', app, documentFactory);
@@ -50,6 +60,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  /* 쿠키 세팅 (스웨거 로그인을 위함) */
+  app.use(cookieParser(process.env.COOKIE_SECRET));
 
   await app.listen(process.env.PORT ?? 3000);
 }

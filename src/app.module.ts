@@ -5,6 +5,8 @@ import { validate } from './core/validator/env.validator';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { ExampleModule } from './domain/v1/example/example.module';
+import { AuthModule } from './domain/v1/auth/auth.module';
+import { UserModule } from './domain/v1/user/user.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { ExampleModule } from './domain/v1/example/example.module';
       synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     }),
     ExampleModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
