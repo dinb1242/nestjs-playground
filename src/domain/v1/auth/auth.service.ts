@@ -12,6 +12,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async signUp() {
+    return 'temp';
+  }
+
   async signIn(body: SignInAuthDto): Promise<any> {
     const user = await this.userService.findOne(body.username);
     if (user?.password !== body.password) {

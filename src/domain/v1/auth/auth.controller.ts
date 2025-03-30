@@ -17,10 +17,23 @@ import {
 } from '../../../shared/decorator/auth.decorator';
 import { Role } from '../../../shared/enum/role.enum';
 import { SignInAuthDto } from './dto/sign-in-auth.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth - 인증')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @ApiOperation({
+    summary: '[ALL] 일반 회원가입',
+    description: '일반 회원가입을 수행한다.',
+  })
+  @AuthPublic()
+  @HttpCode(HttpStatus.CREATED)
+  @Post('sign-up/common')
+  async signUp() {
+    return this.authService.signUp();
+  }
 
   @AuthPublic()
   @HttpCode(HttpStatus.OK)
